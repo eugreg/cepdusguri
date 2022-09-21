@@ -4,16 +4,14 @@ export default {
   data() {
     return {
       cep: "",
+      resultado: {},
     };
   },
   methods: {
     async search() {
-      const url = `https://www.cepaberto.com/api/v3/cep?cep=${this.cep}`;
-      this.resultado = await axios.get(url, {
-        headers: {
-          Authorization: "token token=0991bb7dd912811e5252a9b907d19311",
-        },
-      });
+      const url = `https://viacep.com.br/ws/${this.cep}/json/`;
+      const { data } = await axios.get(url);
+      this.resultado = data;
     },
   },
 };
@@ -25,6 +23,24 @@ export default {
       <input type="text" v-model="cep" />
       <button type="submit">buscar</button>
     </form>
-    {{ resultado }}
+    <form class="end">
+      <label for="rua">rua</label>
+      <input type="text" v-model="resultado.logradouro" />
+      <label for="rua">bairro</label>
+      <input type="text" v-model="resultado.bairro" />
+      <label for="rua">cidade</label>
+      <input type="text" v-model="resultado.localidade" />
+      <label for="rua">estado</label>
+      <input type="text" v-model="resultado.uf" />
+      <label for="rua">ddd</label>
+      <input type="text" v-model="resultado.ddd" />
+    
+    </form>
   </main>
 </template>
+<style>
+  .end{
+    display: flex;
+    flex-direction: column;
+  }
+</style>
